@@ -168,3 +168,24 @@ def test_load_metadata():
     assert metadata["RWC_P001"]["main_genre"] == "Popular"
     assert metadata["RWC_P001"]["sub_genre"] == "J-pop"
     assert metadata["RWC_P001"]["duration"] == "207.16829931972788"
+
+
+def test_load_metadata_else(tmp_path):
+    data_home = tmp_path / "rwc_popular"
+    metadata_dir = data_home / "rwc-annotations-main"
+    metadata_dir.mkdir(parents=True)
+    metadata_file = metadata_dir / "metadata.csv"
+
+    metadata_file.write_text(
+        "RWCID;CollID;PieceNo;CDNo;TrackNo;Title;Artist;SingerInformation;"
+        "SingingLanguage;Tempo;Variation;LiveInstruments;DrumInformation;"
+        "Composer;CompositionType;GenreMain;GenreSub;audio_start;audio_end;duration\n"
+        "RWC_R001;C;1;1;1;Test;Test Artist;Female;Japanese;120.0;"
+        ";Gt;Drum sequences;;;Popular;J-pop;0.1;10.0;10.0\n",
+        encoding="utf-8",
+    )
+
+    dataset = rwc_popular.Dataset(str(data_home), version="test")
+    metadata = dataset._metadata
+
+    assert metadata == {}
