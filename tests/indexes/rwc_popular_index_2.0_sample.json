@@ -11,11 +11,11 @@
         "978335045565e3cf1ea8e65284c9cf78"
       ],
       "beats": [
-        "rwc-annotations-main/01_annotations_preprocessed/beats/RWC_P001.csv",
+        "rwc-annotations-main/01_annotations_preprocessed/beats/RWC-P/RWC_P001.csv",
         "0b73083824e2d4a0168934f403e8a327"
       ],
       "chords": [
-        "rwc-annotations-main/01_annotations_preprocessed/chords/RWC_P001.csv",
+        "rwc-annotations-main/01_annotations_preprocessed/chords/RWC-P/RWC_P001.csv",
         "5fba21c659078dd43ae75a0e31f4d6fb"
       ],
       "voca_inst": [

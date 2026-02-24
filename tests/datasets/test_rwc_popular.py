@@ -24,11 +24,11 @@ def test_track():
         ),
         "beats_path": os.path.join(
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
-            "rwc-annotations-main/01_annotations_preprocessed/beats/RWC_P001.csv",
+            "rwc-annotations-main/01_annotations_preprocessed/beats/RWC-P/RWC_P001.csv",
         ),
         "chords_path": os.path.join(
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
-            "rwc-annotations-main/01_annotations_preprocessed/chords/RWC_P001.csv",
+            "rwc-annotations-main/01_annotations_preprocessed/chords/RWC-P/RWC_P001.csv",
         ),
         "voca_inst_path": os.path.join(
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
@@ -76,7 +76,7 @@ def test_track():
 def test_load_chords():
     chords_path = (
         "tests/resources/mir_datasets/rwc_popular/"
-        + "rwc-annotations-main/01_annotations_preprocessed/chords/RWC_P001.csv"
+        + "rwc-annotations-main/01_annotations_preprocessed/chords/RWC-P/RWC_P001.csv"
     )
     chord_data = rwc_popular.load_chords(chords_path)
 
@@ -94,7 +94,7 @@ def test_load_chords():
 def test_load_beats():
     beats_path = (
         "tests/resources/mir_datasets/rwc_popular/"
-        + "rwc-annotations-main/01_annotations_preprocessed/beats/RWC_P001.csv"
+        + "rwc-annotations-main/01_annotations_preprocessed/beats/RWC-P/RWC_P001.csv"
     )
     beat_data = rwc_popular.load_beats(beats_path)
 
