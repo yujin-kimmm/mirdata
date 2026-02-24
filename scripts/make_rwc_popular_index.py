@@ -29,14 +29,14 @@ def make_rwc_popular_index(data_path):
 
             piece.append(rwcid[-3:])
 
-    track_ids = sorted([f"RM-P{p}" for p in piece])
+    track_ids = sorted([f"RWC_P{p}" for p in piece])
 
     rwc_popular_index = {"version": "2.0", "tracks": {}, "metadata": {}}
     for track_id in track_ids:
         pid = track_id[-3:]
-        rwcid = f"RWC_P{pid}"
+        rm_id = f"RM-P{pid}"
 
-        audio_rel = os.path.join("RWC-P", f"{rwcid}.wav")
+        audio_rel = os.path.join("RWC-P", f"{track_id}.wav")
         audio_abs = os.path.join(dataset_root, audio_rel)
         if not os.path.exists(audio_abs):
             raise FileNotFoundError(f"Audio file not found: {audio_abs}")
@@ -48,7 +48,7 @@ def make_rwc_popular_index(data_path):
             "01_annotations_preprocessed",
             "beats",
             "RWC-P",
-            f"{rwcid}.csv",
+            f"{track_id}.csv",
         )
         beats_abs = os.path.join(dataset_root, beats_rel)
         if os.path.exists(beats_abs):
@@ -62,7 +62,7 @@ def make_rwc_popular_index(data_path):
             "01_annotations_preprocessed",
             "chords",
             "RWC-P",
-            f"{rwcid}.csv",
+            f"{track_id}.csv",
         )
         chords_abs = os.path.join(dataset_root, chords_rel)
         if os.path.exists(chords_abs):
@@ -74,7 +74,7 @@ def make_rwc_popular_index(data_path):
         sections_rel = os.path.join(
             "rwc-annotations-archive-main",
             "AIST_RWC-MDB-P-2001_CHORUS",
-            f"{track_id}.CHORUS.TXT",
+            f"{rm_id}.CHORUS.TXT",
         )
         sections_abs = os.path.join(dataset_root, sections_rel)
         if os.path.exists(sections_abs):
@@ -86,7 +86,7 @@ def make_rwc_popular_index(data_path):
         voca_inst_rel = os.path.join(
             "rwc-annotations-archive-main",
             "AIST_RWC-MDB-P-2001_VOCA_INST",
-            f"{track_id}.VOCA_INST.TXT",
+            f"{rm_id}.VOCA_INST.TXT",
         )
         voca_inst_abs = os.path.join(dataset_root, voca_inst_rel)
         if os.path.exists(voca_inst_abs):
@@ -98,7 +98,7 @@ def make_rwc_popular_index(data_path):
         melody_rel = os.path.join(
             "rwc-annotations-archive-main",
             "AIST_RWC-MDB-P-2001_MELODY",
-            f"{track_id}.MELODY.TXT",
+            f"{rm_id}.MELODY.TXT",
         )
 
         melody_abs = os.path.join(dataset_root, melody_rel)
