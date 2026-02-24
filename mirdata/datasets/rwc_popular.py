@@ -51,7 +51,24 @@ BIBTEX = """@inproceedings{GotoHNO02_RWC_ISMIR,
   booktitle = {Proceedings of the International Society for Music Information Retrieval Conference ({ISMIR})},
   year      = {2006},
   pages     = {359--360},
-}"""
+}
+@inproceedings{mauch2011timbre,
+  title={Timbre and Melody Features for the Recognition of Vocal Activity and Instrumental Solos in Polyphonic Music.},
+  author={Mauch, Matthias and Fujihara, Hiromasa and Yoshii, Kazuyoshi and Goto, Masataka},
+  booktitle={ISMIR},
+  year={2011},
+  series={ISMIR},
+  note={Cite this if using vocal-instrumental activity annotations},
+}
+@inproceedings{goto2002rwc,
+  title={RWC Music Database: Popular, Classical and Jazz Music Databases.},
+  author={Goto, Masataka and Hashiguchi, Hiroki and Nishimura, Takuichi and Oka, Ryuichi},
+  booktitle={3rd International Society for Music Information Retrieval Conference},
+  year={2002},
+  series={ISMIR},
+  note={Cite this if using audio, beat or section annotations},
+}
+"""
 
 INDEXES = {
     "default": "2.0",
