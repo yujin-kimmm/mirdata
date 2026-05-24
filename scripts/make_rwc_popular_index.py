@@ -17,7 +17,7 @@ def md5(file_path):
 
 def make_rwc_popular_index(data_path):
     dataset_root = os.path.join(data_path, "rwc_popular")
-    metadata_file = os.path.join(dataset_root, "rwc-annotations-main", "metadata.csv")
+    metadata_file = os.path.join(dataset_root, "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2", "metadata.csv")
 
     with open(metadata_file, "r", encoding="utf-8") as fhandle:
         reader = csv.DictReader(fhandle, delimiter=";")
@@ -44,7 +44,7 @@ def make_rwc_popular_index(data_path):
         audio_checksum = md5(audio_abs)
 
         beats_rel = os.path.join(
-            "rwc-annotations-main",
+            "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2",
             "01_annotations_preprocessed",
             "beats",
             "RWC-P",
@@ -58,7 +58,7 @@ def make_rwc_popular_index(data_path):
             beats_idx, beats_md5 = None, None
 
         chords_rel = os.path.join(
-            "rwc-annotations-main",
+            "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2",
             "01_annotations_preprocessed",
             "chords",
             "RWC-P",
@@ -71,34 +71,12 @@ def make_rwc_popular_index(data_path):
         else:
             chords_idx, chords_md5 = None, None
 
-        sections_rel = os.path.join(
-            "rwc-annotations-archive-main",
-            "AIST_RWC-MDB-P-2001_CHORUS",
-            f"{rm_id}.CHORUS.TXT",
-        )
-        sections_abs = os.path.join(dataset_root, sections_rel)
-        if os.path.exists(sections_abs):
-            sections_idx = sections_rel.replace("\\", "/")
-            sections_md5 = md5(sections_abs)
-        else:
-            sections_idx, sections_md5 = None, None
-
-        voca_inst_rel = os.path.join(
-            "rwc-annotations-archive-main",
-            "AIST_RWC-MDB-P-2001_VOCA_INST",
-            f"{rm_id}.VOCA_INST.TXT",
-        )
-        voca_inst_abs = os.path.join(dataset_root, voca_inst_rel)
-        if os.path.exists(voca_inst_abs):
-            voca_inst_idx = voca_inst_rel.replace("\\", "/")
-            voca_inst_md5 = md5(voca_inst_abs)
-        else:
-            voca_inst_idx, voca_inst_md5 = None, None
-
         melody_rel = os.path.join(
-            "rwc-annotations-archive-main",
-            "AIST_RWC-MDB-P-2001_MELODY",
-            f"{rm_id}.MELODY.TXT",
+            "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2",
+            "01_annotations_preprocessed",
+            "melody",
+            "RWC-P",
+            f"{track_id}.csv",
         )
 
         melody_abs = os.path.join(dataset_root, melody_rel)
@@ -110,10 +88,8 @@ def make_rwc_popular_index(data_path):
 
         rwc_popular_index["tracks"][track_id] = {
             "audio": (audio_rel, audio_checksum),
-            "sections": (sections_idx, sections_md5),
             "beats": (beats_idx, beats_md5),
             "chords": (chords_idx, chords_md5),
-            "voca_inst": (voca_inst_idx, voca_inst_md5),
             "melody": (melody_idx, melody_md5),
         }
 
@@ -130,14 +106,14 @@ def make_rwc_popular_index(data_path):
 
 
 def main(args):
-    make_rwc_popular_index(args.rwc_popular_data_path)
+    make_rwc_popular_index(args.data_path)
 
 
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser(description="Make RWC-Popular index file.")
     PARSER.add_argument(
-        "rwc_popular_data_path",
+        "--data_path",
         type=str,
-        help="Path to parent directory of rwc_popular_new.",
+        help="Path to parent directory of rwc_popular.",
     )
     main(PARSER.parse_args())
