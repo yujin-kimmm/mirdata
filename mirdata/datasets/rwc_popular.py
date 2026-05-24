@@ -175,7 +175,7 @@ class Track(core.Track):
     @property
     def singing_language(self):
         return self._track_metadata.get("singing_language")
-    
+
     @property
     def tempo(self):
         return self._track_metadata.get("tempo")
@@ -219,7 +219,6 @@ class Track(core.Track):
     @property
     def duration(self):
         return self._track_metadata.get("duration")
-
 
     @core.cached_property
     def beats(self) -> Optional[annotations.BeatData]:

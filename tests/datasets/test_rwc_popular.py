@@ -18,10 +18,6 @@ def test_track():
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
             "RWC-P/1.wav",
         ),
-        "sections_path": os.path.join(
-            os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
-            "rwc-annotations-archive-main/AIST_RWC-MDB-P-2001_CHORUS/RM-P001.CHORUS.TXT",
-        ),
         "beats_path": os.path.join(
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
             "rwc-annotations-main/01_annotations_preprocessed/beats/RWC-P/RWC_P001.csv",
@@ -30,19 +26,17 @@ def test_track():
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
             "rwc-annotations-main/01_annotations_preprocessed/chords/RWC-P/RWC_P001.csv",
         ),
-        "voca_inst_path": os.path.join(
-            os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
-            "rwc-annotations-archive-main/AIST_RWC-MDB-P-2001_VOCA_INST/RM-P001.VOCA_INST.TXT",
-        ),
         "f0_path": os.path.join(
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
-            "rwc-annotations-archive-main/AIST_RWC-MDB-P-2001_MELODY/RM-P001.MELODY.TXT",
+            "rwc-annotations-main/01_annotations_preprocessed/melody/RWC-P/RWC_P001.csv",
         ),
         "piece_number": "1",
+        "cd_number": "1",
         "track_number": "1",
         "title": "Eien no replica",
         "artist": "Kazuo Nishi",
         "singer_information": "Male",
+        "singing_language": "Japanese",
         "tempo": "135.0",
         "variation": "",
         "live_instrument": "Gt",
@@ -58,9 +52,7 @@ def test_track():
 
     expected_property_types = {
         "beats": annotations.BeatData,
-        "sections": annotations.SectionData,
         "chords": annotations.ChordData,
-        "vocal_instrument_activity": annotations.EventData,
         "melody": annotations.F0Data,
         "audio": tuple,
     }
@@ -113,7 +105,7 @@ def test_load_beats():
 def test_load_melody():
     melody_path = (
         "tests/resources/mir_datasets/rwc_popular/"
-        + "rwc-annotations-archive-main/AIST_RWC-MDB-P-2001_MELODY/RM-P001.MELODY.TXT"
+        + "rwc-annotations-main/01_annotations_preprocessed/melody/RWC-P/RWC_P001.csv"
     )
     melody_data = rwc_popular.load_melody(melody_path)
 
@@ -123,32 +115,20 @@ def test_load_melody():
     assert type(melody_data.frequencies) is np.ndarray
     assert type(melody_data.voicing) is np.ndarray
 
-    # check values - should have uniform time intervals
-    assert len(melody_data.times) > 0
-    assert melody_data.times[0] == 10.18  # frame 1018 / 100
-    assert melody_data.times[1] == 10.19  # frame 1019 / 100
+    # check values
+    assert np.array_equal(
+        melody_data.times[:5], np.array([0.0, 0.01, 0.02, 0.03, 0.04])
+    )
+    assert np.array_equal(
+        melody_data.frequencies[:5], np.array([0.0, 0.0, 0.0, 0.0, 0.0])
+    )
+    assert np.array_equal(melody_data.voicing[:5], np.array([0.0, 0.0, 0.0, 0.0, 0.0]))
+    assert len(melody_data.times) == 200
+    assert melody_data.times[-1] == 1.99
 
     # check that times are uniform (difference of 0.01s for 10ms frames)
     time_diffs = np.diff(melody_data.times)
     assert np.allclose(time_diffs, 0.01, atol=1e-6)
-
-
-def test_load_vocal_activity():
-    vocinst_path = (
-        "tests/resources/mir_datasets/rwc_popular/"
-        + "rwc-annotations-archive-main/AIST_RWC-MDB-P-2001_VOCA_INST/RM-P001.VOCA_INST.TXT"
-    )
-    vocinst_data = rwc_popular.load_vocal_activity(vocinst_path)
-
-    # check types
-    assert type(vocinst_data) is annotations.EventData
-    assert type(vocinst_data.intervals) is np.ndarray
-    assert type(vocinst_data.events) is list
-
-    # check values
-    assert vocinst_data.intervals[0, 0] == 0.0
-    assert vocinst_data.intervals[0, 1] == 10.293061224
-    assert vocinst_data.events[0] == "b"
 
 
 def test_load_metadata():
@@ -158,10 +138,12 @@ def test_load_metadata():
 
     assert "RWC_P001" in metadata
     assert metadata["RWC_P001"]["piece_number"] == "1"
+    assert metadata["RWC_P001"]["cd_number"] == "1"
     assert metadata["RWC_P001"]["track_number"] == "1"
     assert metadata["RWC_P001"]["title"] == "Eien no replica"
     assert metadata["RWC_P001"]["artist"] == "Kazuo Nishi"
     assert metadata["RWC_P001"]["singer_information"] == "Male"
+    assert metadata["RWC_P001"]["singing_language"] == "Japanese"
     assert metadata["RWC_P001"]["tempo"] == "135.0"
     assert metadata["RWC_P001"]["live_instrument"] == "Gt"
     assert metadata["RWC_P001"]["drum_information"] == "Drum sequences"
