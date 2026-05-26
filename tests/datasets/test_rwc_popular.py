@@ -154,7 +154,7 @@ def test_load_metadata():
 
 def test_load_metadata_else(tmp_path):
     data_home = tmp_path / "rwc_popular"
-    metadata_dir = data_home / "rwc-annotations-main"
+    metadata_dir = data_home / "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2"
     metadata_dir.mkdir(parents=True)
     metadata_file = metadata_dir / "metadata.csv"
 
