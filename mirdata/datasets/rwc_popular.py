@@ -346,7 +346,7 @@ class Dataset(core.Dataset):
     @core.cached_property
     def _metadata(self):
         metadata_path = os.path.join(
-            self.data_home, "rwc-annotations-main", "metadata.csv"
+            self.data_home, "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2", "metadata.csv"
         )
         try:
             with open(metadata_path, "r", encoding="utf-8") as fhandle:
