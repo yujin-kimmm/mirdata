@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pretty_midi
 
 from mirdata.datasets import rwc_popular
 from mirdata import annotations
@@ -30,6 +31,10 @@ def test_track():
             os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
             "rwc-annotations-main/01_annotations_preprocessed/melody/RWC-P/RWC_P001.csv",
         ),
+        "midi_path": os.path.join(
+            os.path.normpath("tests/resources/mir_datasets/rwc_popular/"),
+            "rwc-annotations-main/01_annotations_preprocessed/MIDI_aligned/RWC-P/RWC_P001.mid",
+        ),
         "piece_number": "1",
         "cd_number": "1",
         "track_number": "1",
@@ -54,6 +59,7 @@ def test_track():
         "beats": annotations.BeatData,
         "chords": annotations.ChordData,
         "melody": annotations.F0Data,
+        "midi": pretty_midi.PrettyMIDI,
         "audio": tuple,
     }
 

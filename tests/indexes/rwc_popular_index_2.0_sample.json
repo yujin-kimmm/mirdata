@@ -17,6 +17,10 @@
       "melody": [
         "rwc-annotations-main/01_annotations_preprocessed/melody/RWC-P/RWC_P001.csv",
         "e1c32ce735d14d0914b3390bf6bd4073"
+      ],
+      "midi": [
+        "rwc-annotations-main/01_annotations_preprocessed/MIDI_aligned/RWC-P/RWC_P001.mid",
+        "6633680bffbfbf9c0be4eb677d130804"
       ]
     }
   },

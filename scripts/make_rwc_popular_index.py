@@ -17,7 +17,11 @@ def md5(file_path):
 
 def make_rwc_popular_index(data_path):
     dataset_root = os.path.join(data_path, "rwc_popular")
-    metadata_file = os.path.join(dataset_root, "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2", "metadata.csv")
+    metadata_file = os.path.join(
+        dataset_root,
+        "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2",
+        "metadata.csv",
+    )
 
     with open(metadata_file, "r", encoding="utf-8") as fhandle:
         reader = csv.DictReader(fhandle, delimiter=";")
@@ -86,11 +90,26 @@ def make_rwc_popular_index(data_path):
         else:
             melody_idx, melody_md5 = None, None
 
+        midi_rel = os.path.join(
+            "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2",
+            "01_annotations_preprocessed",
+            "MIDI_aligned",
+            "RWC-P",
+            f"{track_id}.mid",
+        )
+        midi_abs = os.path.join(dataset_root, midi_rel)
+        if os.path.exists(midi_abs):
+            midi_idx = midi_rel.replace("\\", "/")
+            midi_md5 = md5(midi_abs)
+        else:
+            midi_idx, midi_md5 = None, None
+
         rwc_popular_index["tracks"][track_id] = {
             "audio": (audio_rel, audio_checksum),
             "beats": (beats_idx, beats_md5),
             "chords": (chords_idx, chords_md5),
             "melody": (melody_idx, melody_md5),
+            "midi": (midi_idx, midi_md5),
         }
 
     metadata_rel = os.path.relpath(metadata_file, dataset_root).replace("\\", "/")

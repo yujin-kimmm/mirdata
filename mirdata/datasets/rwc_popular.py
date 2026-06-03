@@ -18,6 +18,7 @@ import os
 from typing import Optional, TextIO, Tuple
 
 import numpy as np
+import pretty_midi
 from smart_open import open
 
 from mirdata import annotations, core, download_utils, io
@@ -77,7 +78,7 @@ INDEXES = {
     "2.0": core.Index(
         filename="rwc_popular_index_2.0.json",
         url="https://zenodo.org/records/20369966/files/rwc_popular_index_2.0.json?download=1",
-        checksum="7178a5d84d0162437cb86949a09272a3",
+        checksum="c7f5f853768815885cea70d6c246895d",
     ),
     "sample": core.Index(filename="rwc_popular_index_2.0_sample.json"),
 }
@@ -114,6 +115,7 @@ class Track(core.Track):
         beats_path (str): path of the beat annotation file
         chords_path (str): path of the chord annotation file
         f0_path (str): path of the melody (F0) annotation file
+        midi_path (str): path of the aligned MIDI file
         piece_number (str): Piece number
         cd_number (str): CD number
         track_number (str): track number on the CD
@@ -137,6 +139,7 @@ class Track(core.Track):
         beats (BeatData): human-labeled beat annotation
         chords (ChordData): human-labeled chord annotation
         melody (F0Data): human-labeled melody (F0) annotation
+        midi (pretty_midi.PrettyMIDI): aligned MIDI annotations
 
     """
 
@@ -147,6 +150,7 @@ class Track(core.Track):
         self.beats_path = self.get_path("beats")
         self.chords_path = self.get_path("chords")
         self.f0_path = self.get_path("melody")
+        self.midi_path = self.get_path("midi")
 
     @property
     def piece_number(self):
@@ -231,6 +235,10 @@ class Track(core.Track):
     @core.cached_property
     def melody(self) -> Optional[annotations.F0Data]:
         return load_melody(self.f0_path)
+
+    @core.cached_property
+    def midi(self) -> Optional[pretty_midi.PrettyMIDI]:
+        return io.load_midi(self.midi_path)
 
     @property
     def audio(self) -> Optional[Tuple[np.ndarray, float]]:
