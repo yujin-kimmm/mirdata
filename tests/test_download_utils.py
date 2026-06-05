@@ -520,6 +520,22 @@ def test_extractall_unicode(tmp_path, mocker, mock_download_from_remote, mock_un
             assert os.path.exists(expected_file_location)
 
 
+def test_extractall_unicode_keeps_uncodable_filename(tmp_path, mocker):
+    member = mocker.Mock()
+    member.filename = "plain😀.txt"
+    member.flag_bits = 0
+
+    zfile = mocker.Mock()
+    zfile.infolist.return_value = [member]
+    zfile.read.return_value = b"content"
+
+    download_utils.extractall_unicode(zfile, str(tmp_path))
+
+    expected_file_location = os.path.join(str(tmp_path), "plain😀.txt")
+    assert os.path.exists(expected_file_location)
+    assert Path(expected_file_location).read_bytes() == b"content"
+
+
 def test_extractall_cp437(tmp_path, mocker, mock_download_from_remote, mock_unzip):
     zfile = zipfile.ZipFile("tests/resources/utfissue.zip", "r")
     zfile.extractall(str(tmp_path))
