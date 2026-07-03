@@ -15,19 +15,14 @@
 
 import csv
 import os
-from typing import Optional, TextIO, Tuple
+from typing import BinaryIO, Optional, TextIO, Tuple
 
+import librosa
 import numpy as np
 import pretty_midi
 from smart_open import open
 
 from mirdata import annotations, core, download_utils, io
-
-# these functions are identical for all rwc datasets
-from mirdata.datasets.rwc_classical import (
-    load_audio,
-    LICENSE_INFO,
-)
 
 BIBTEX = """@inproceedings{goto2002rwc,
   title={RWC Music Database: Popular, Classical and Jazz Music Databases.},
@@ -101,6 +96,10 @@ This dataset is RWC Music Database version 2.0 (released 2026).
 
 If you need the previous version 1.0 with its loader and annotations, install an older mirdata version:
   pip install "mirdata<=1.0.0"
+"""
+
+LICENSE_INFO = """
+Creative Commons Attribution Non Commercial 4.0 International
 """
 
 
@@ -250,6 +249,21 @@ class Track(core.Track):
 
         """
         return load_audio(self.audio_path)
+
+
+@io.coerce_to_bytes_io
+def load_audio(fhandle: BinaryIO) -> Tuple[np.ndarray, float]:
+    """Load a RWC audio file.
+
+    Args:
+        fhandle (str or file-like): File-like object or path to audio file
+
+    Returns:
+        * np.ndarray - the mono audio signal
+        * float - The sample rate of the audio file
+
+    """
+    return librosa.load(fhandle, sr=None, mono=True)
 
 
 @io.coerce_to_string_io
