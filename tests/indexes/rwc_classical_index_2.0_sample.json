@@ -1,0 +1,25 @@
+{
+  "version": "sample",
+  "tracks": {
+    "RWC_C003": {
+      "audio": [
+        "RWC-C/RWC_C003.wav",
+        "9893e0e7d628b6649526b2d3222f6a39"
+      ],
+      "beats": [
+        "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2/01_annotations_preprocessed/beats/RWC-C/RWC_C003.csv",
+        "f1c4b2478a72211b1259cfb6bf2e5582"
+      ],
+      "midi": [
+        "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2/01_annotations_preprocessed/MIDI_aligned/RWC-C/RWC_C003.mid",
+        "e7f696be85c4dad84040e215594910aa"
+      ]
+    }
+  },
+  "metadata": {
+    "rwc-classical-metadata": [
+      "rwc-annotations-2b84581b0c4c80514aadf7e9025a309c91e02cc2/metadata.csv",
+      "b4626a4293d58b8a6639e8d36b019358"
+    ]
+  }
+}
